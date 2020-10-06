@@ -1,0 +1,12 @@
+{
+    "python.disableInstallationCheck": true,
+    "python.terminal.activateEnvironment": false,
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.lintOnSave": true,
+    "python.pythonPath": "/home/huber/.pyenv/versions/venv_testAutomate/bin/python",
+    "python.linting.pylintPath": "/home/huber/.pyenv/versions/venv_testAutomate/bin/pylint",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": true,
+    "editor.renderWhitespace": "none"
+}
