@@ -12,3 +12,14 @@
 **Run a 'pip install -r requirements.txt'**
 
 **By using pip's package for webdriver manager, you do not need to add a binary driver to your path it will check for an update version each instance the script is run**
+
+## Author
+
+👤 **Kyle Huber**
+
+* Website: https://www.kylejamesmyfilenames.com/
+* Github: [@Huberdoggy](https://github.com/Huberdoggy)
+
+## Show your support
+
+Give a ⭐️ if this project helped you!

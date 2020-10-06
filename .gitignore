@@ -5,8 +5,6 @@ secrets.*
 # Cached
 __pycache__.*
 
-# A seperate login test I ran on the Instagram URL
-test_login.*
 
 # Excel sheets
 flights.*
