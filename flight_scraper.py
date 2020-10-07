@@ -6,8 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from webdriver_manager.chrome import ChromeDriverManager
 
 # Import my email and pass from secrets
-from secrets import gmail_username
-from secrets import gmail_password
+from secrets import gmail_username, gmail_password, outlook_username
 
 
 # For structuring captured data
@@ -35,22 +34,22 @@ browser = webdriver.Chrome(ChromeDriverManager().install())
 
 def dep_airport_chooser(dep_airport):
     fly_from = browser.find_element_by_class_name("airport-code.d-block")
-    sleep(2)
+    sleep(1.5)
     fly_from.click()
-    sleep(2)
+    sleep(1.5)
     # Hit the 'X' button
     clear_out = browser.find_element_by_xpath(
         "//*[@id='airport-serach-panel']/div/div[1]/span/button")
     clear_out.click()
-    sleep(2)
+    sleep(1.5)
     # Type my chosen port
     clear_out = browser.find_element_by_xpath("//*[@id='search_input']")
     clear_out.send_keys(dep_airport)
-    sleep(2)
+    sleep(1.5)
     # And select the auto complete result below
     first_item = browser.find_element_by_xpath(
         "//*[@id='airport-serach-panel']/div/div[2]/div/ul/li/a/span[1]")
-    sleep(2)
+    sleep(1.5)
     first_item.click()
 
     # Function for fly-to
@@ -59,17 +58,17 @@ def dep_airport_chooser(dep_airport):
 def dest_airport_chooser(dest_airport):
     fly_to = browser.find_element_by_id(
         "toAirportName")
-    sleep(2)
+    sleep(1.5)
     fly_to.click()
-    sleep(2)
+    sleep(1.5)
     # Type my chosen port
     clear_out = browser.find_element_by_xpath("//*[@id='search_input']")
     clear_out.send_keys(dest_airport)
-    sleep(2)
+    sleep(1.5)
     # And select the auto complete result below
     first_item = browser.find_element_by_xpath(
         "//*[@id='airport-serach-panel']/div/div[2]/div/ul/li/a/span[1]")
-    sleep(2)
+    sleep(1.5)
     first_item.click()
 
 
@@ -95,11 +94,11 @@ def ticket_chooser(ticket, options):
         pass
 
 
-# Set date paths
+# Set date paths - Update as needed for running script with different dates
 
-dep_date = "//td[3]/a"
+dep_date = "//tr[4]/td[3]/a"
 
-return_date = "//tr[4]/td[3]/a"
+return_date = "//tr[5]/td[3]/a"
 
 # Function for date selection
 
@@ -130,18 +129,11 @@ df = pd.DataFrame()
 
 def compile_data():
     global df
-    # global dep_times_list
-    # global arr_times_list
+
     global price_list
 
-    # departure arr_times_list
-    # dep_times = browser.find_element_by_class_name("trip-time.pr0-sm-down")
-    # dep_times_list = [value.text for value in dep_times]
-    # # arrival times
-    # arr_times = browser.find_element_by_class_name("trip-time.pl0-sm-down")
-    # arr_times_list = [value.text for value in arr_times]
-
     # prices
+
     prices = browser.find_elements_by_xpath("//div[2]/a")
     price_list = [value.text for value in prices]
 
@@ -154,13 +146,6 @@ def compile_data():
             df.loc[i, str(current_price)] = price_list[i]
         except Exception as e:
             pass
-        #     df.loc[i, 'departure_time'] = dep_times_list[i]
-        # except Exception as e:
-        #     pass
-        # try:
-        #     df.loc[i, 'arrival_time'] = arr_times_list[i]
-        # except Exception as e:
-        #     pass
 
     print("Excel sheet created!")
 
@@ -191,11 +176,11 @@ def send_email(msg):
     global message
     message = MIMEMultipart()
     message['Subject'] = 'Current Best flight'
-    message['From'] = 'huberdoggy@gmail.com'
-    message['to'] = 'kyle.huber@southeasttech.edu'
+    message['From'] = gmail_username
+    message['to'] = outlook_username
 
-    server.sendmail('huberdoggy@gmail.com',
-                    'kyle.huber@southeasttech.edu', msg)
+    server.sendmail(gmail_username,
+                    outlook_username, msg)
 
 
 for i in range(3):
@@ -213,8 +198,6 @@ for i in range(3):
 
     current_values = df.iloc[0]
 
-    #cheapest_dep_time = current_values[0]
-    #cheapest_arrival_time = current_values[1]
     cheapest_price = current_values[0]
 
     print('run {} completed!'.format(i))
